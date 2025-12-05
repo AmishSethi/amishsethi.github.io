@@ -23,19 +23,23 @@
               <p class="name" style="text-align: center;">Amish Sethi</p>
               <p>
                 I'm an undergraduate student at the <a href="https://www.seas.upenn.edu/">University of
-                  Pennsylvania</a>, currently in my senior year pursuing a Bachelor's and Master's degree in
-                Computer&nbsp;Science, with an expected graduation for both in&nbsp;2026.
+                  Pennsylvania</a>, currently in my senior year pursuing a Bachelor's of Science in Engineering.
+                My major is Computer&nbsp;Science, and I am getting minors in mathematics and data science, with an
+                expected graduation in May&nbsp;2026.
               </p>
               <p>
-                I work with <a href="https://www.linkedin.com/in/ai4code/">Professor&nbsp;Mayur&nbsp;Naik</a> on
-                projects that push the boundaries of deep learning and neurosymbolic AI. My interests span
-                neural-network optimization, scalable model compression, integrating symbolic reasoning with neural
-                architectures, and building foundation models for video understanding. I enjoy building efficient,
-                interpretable systems that extend the capabilities of large language and vision models.
+                I work with <a href="https://www.linkedin.com/in/ai4code/">Professor&nbsp;Mayur&nbsp;Naik</a> and
+                <a href="https://www.seas.upenn.edu/~dineshj/" target="_blank">Professor&nbsp;Dinesh&nbsp;Jayaraman</a>
+                on scalable neurosymbolic learning, robust video perception, and embodied AI. My interests span
+                neural-network optimization, structured and trustworthy perception for robots, and foundation models
+                that connect videos, language, and robot policies. I enjoy building efficient, interpretable systems
+                that make large language and vision models reliable in the physical world.
               </p>
               <p>
-                I'm incredibly grateful to <a href="https://www.linkedin.com/in/ai4code/">Professor Mayur Naik</a> for
-                his continuous support and guidance throughout my research journey. I also deeply appreciate the
+                I'm incredibly grateful to
+                <a href="https://www.linkedin.com/in/ai4code/">Professor Mayur Naik</a> and
+                <a href="https://www.seas.upenn.edu/~dineshj/" target="_blank">Professor Dinesh Jayaraman</a> for
+                their continuous support and guidance throughout my research journey. I also deeply appreciate the
                 mentorship and inspiration from the PhD students I've worked closely with:
                 <a href="https://nvelingker.github.io" target="_blank">Neelay Velingker</a>,
                 <a href="https://oscarxzq.github.io" target="_blank">Oscar Xu</a>,
@@ -63,17 +67,30 @@
             <td style="padding:16px;width:100%;vertical-align:middle">
               <h2>News</h2>
               <ul class="news-list">
-                <li>(2024/09/18) Our paper <a href="esca.pdf" target="_blank">
+                <li>(2025/12/03) Penn Engineering highlighted our NeurIPS 2025 Spotlight paper
+
+                  ESCA: Contextualizing Embodied Agents via Scene-Graph Generation
+                  on their <a
+                    href="https://www.linkedin.com/posts/pennengai_neurips-2025-research-spotlight-esca-contextualizing-activity-7402112890218004480-vJSv"
+                    target="_blank"> <em>socials</em></a> and the front page of their website. 🎉
+                </li>
+                <li>(2025/11/01) I was selected as one of Penn's 4 nominees for the
+                  <strong>CRA Outstanding Undergraduate Researcher Award</strong>. 🎉
+                </li>
+                <li>(2025/09/17) Our paper
+                  <a href="esca.pdf" target="_blank">
                     <em>ESCA: Contextualizing Embodied Agents via Scene-Graph Generation</em></a>
-                  is accepted to <strong>NeurIPS 2025</strong> as a <strong>Spotlight</strong> (top 3%)! 🎉</li>
-                <li>(2025/05/01) Our paper <a href="https://arxiv.org/pdf/2410.03348" target="_blank">
+                  was accepted to <strong>NeurIPS 2025</strong> as a <strong>Spotlight</strong> (top 3%)! 🎉
+                </li>
+                <li>(2025/05/01) Our paper
+                  <a href="https://arxiv.org/pdf/2410.03348" target="_blank">
                     <em>Dolphin: A Programmable Framework for Scalable Neurosymbolic Learning</em></a>
-                  is accepted to <strong>ICML 2025</strong>! 🎉</li>
+                  was accepted to <strong>ICML 2025</strong>! 🎉
+                </li>
               </ul>
             </td>
           </tr>
         </table>
-
 
         <!-- Research Summary -->
         <table
@@ -82,10 +99,11 @@
             <td style="padding:16px;width:100%;vertical-align:middle">
               <h2>Research</h2>
               <p>
-                I'm interested in deep learning, generative AI, and neurosymbolic AI. Most of my research focuses on
-                optimizing large language models through efficient finetuning, quantization, and pruning, exploring how
-                symbolic reasoning can be integrated into neural networks for greater interpretability and control, and
-                building foundation models for video understanding to enable trustworthy embodied AI systems.
+                I'm interested in deep learning and neurosymbolic methods for building <strong>reliable embodied
+                  AI</strong>. My work spans three layers of the AI stack: (1) optimizing and understanding large
+                language
+                models, (2) scalable neurosymbolic frameworks, and (3) structured video and robot policy models that
+                make perception and action robust in open-ended environments.
               </p>
             </td>
           </tr>
@@ -94,21 +112,23 @@
         <!-- Project Section -->
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin:auto;">
 
-          <!-- Project 1: Delta Activations -->
+          <!-- Project 0: Retrieval-Augmented VLA (RSS thesis) -->
           <tr>
             <td style="padding:20px;width:35%;vertical-align:middle">
-              <img src="images/delta.png" alt="project image" style="width:100%; border-radius:10px;">
+              <img src="images/vla.png" alt="project image" style="width:100%; border-radius:10px;">
             </td>
             <td style="padding:20px;width:65%;vertical-align:middle">
-              <papertitle>Delta Activations: A Representation for Finetuned Large Language Models</papertitle><br>
-              Zhiqiu Xu<sup>*</sup>, <strong><em>Amish Sethi</em></strong><sup>*</sup>, Mayur Naik, Ser-Nam Lim<br>
-              <em>Under review</em><br>
-              <a href="https://arxiv.org/abs/2509.04442">arXiv</a> /
-              <a href="https://oscarxzq.github.io/delta_activation/">website</a><br><br>
-              <p>Delta Activations represents finetuned models by measuring shifts in their internal activations
-                relative to a base model. This approach clusters models by domain and enables retrieval using only 20
-                examples. We finetuned and released over 700 open-source models on Hugging Face, demonstrating the
-                utility of this representation for model selection and merging in building reliable model ecosystems.
+              <papertitle>Retrieval-Augmented Vision-Language-Action Policies from Broad Robot Demonstration
+                Corpora</papertitle><br>
+              <strong><em>Amish Sethi</em></strong>, Jiani Huang, Felix Zheng, Brandon Yang, Chris Watson, Aurora Qian,
+              Junyao Shi, Mayur Naik, Dinesh Jayaraman<br>
+              <em>Robotics: Science and Systems (RSS) 2026 &mdash; planned submission (senior thesis)</em><br><br>
+              <p>
+                This project builds retrieval-augmented vision-language-action (VLA) policies that adapt to new
+                manipulation tasks without additional in-domain teleoperation. We use VINE’s spatio-temporal
+                scene graphs to index large corpora of robot manipulation trajectories and retrieve structurally similar
+                examples at inference time, enabling a Franka arm to solve novel multi-stage tasks via in-context
+                learning alone (no finetuning or additional data collection needed).
               </p>
             </td>
           </tr>
@@ -151,12 +171,31 @@
                 attributes, spatial relationships, and temporal dynamics. Given a video and optional keywords, VINE
                 outputs probabilistic scene graphs that provide rich semantic structure beyond object detection. Trained
                 on 87K+ videos using neurosymbolic learning, VINE is both promptable and fine-tuneable for diverse
-                applications from contextualizing vision-language models to enabling robot learning from demonstration.
+                applications from contextualizing vision-language models to learning policies from broad robot
+                demonstration corpora.</p>
+            </td>
+          </tr>
+
+          <!-- Project 1: Delta Activations -->
+          <tr>
+            <td style="padding:20px;width:35%;vertical-align:middle">
+              <img src="images/delta.png" alt="project image" style="width:100%; border-radius:10px;">
+            </td>
+            <td style="padding:20px;width:65%;vertical-align:middle">
+              <papertitle>Delta Activations: A Representation for Finetuned Large Language Models</papertitle><br>
+              Zhiqiu Xu<sup>*</sup>, <strong><em>Amish Sethi</em></strong><sup>*</sup>, Mayur Naik, Ser-Nam Lim<br>
+              <em>NeurIPS 2025 ER Workshop</em><br>
+              <a href="https://arxiv.org/abs/2509.04442">arXiv</a> /
+              <a href="https://oscarxzq.github.io/delta_activation/">website</a><br><br>
+              <p>Delta Activations represents finetuned models by measuring shifts in their internal activations
+                relative to a base model. This approach clusters models by domain and enables retrieval using only 20
+                examples. We finetuned and released over 700 open-source models on Hugging Face, demonstrating the
+                utility of this representation for model selection and merging in building reliable model ecosystems.
               </p>
             </td>
           </tr>
 
-          <!-- Project 3: Dolphin -->
+          <!-- Project 4: Dolphin -->
           <tr>
             <td style="padding:20px;width:35%;vertical-align:middle">
               <img src="images/dolphin.png" alt="project image" style="width:100%; border-radius:10px;">
@@ -174,7 +213,7 @@
             </td>
           </tr>
 
-          <!-- Project 4: CLAM -->
+          <!-- Project 5: CLAM -->
           <tr>
             <td style="padding:20px;width:35%;vertical-align:middle">
               <img src="images/clam.png" alt="project image" style="width:100%; border-radius:10px;">
@@ -184,7 +223,7 @@
               </papertitle><br>
               Neelay Velingker, <strong><em>Amish Sethi</em></strong><sup>*</sup>, Jason Liu<sup>*</sup>, William
               Dodds<sup>*</sup>, Zhiqiu Xu, Saikat Dutta, Mayur Naik, Eric Wong<br>
-              <em>Workshop on Efficient Systems for Foundation Models II @ ICML 2024</em><br>
+              <em>ICML ES-FoMo II 2024</em><br>
               <a href="https://openreview.net/pdf?id=1mKtFkElnu">paper</a> /
               <a href="https://github.com/slimscale-ai/slimscale">code</a><br><br>
               <p>CLAM is a framework unifying parameter-efficient finetuning, quantization, and pruning for LLMs. It
@@ -194,7 +233,7 @@
             </td>
           </tr>
 
-          <!-- Project 5: Alzheimer's -->
+          <!-- Project 6: Alzheimer's -->
           <tr>
             <td style="padding:20px;width:35%;vertical-align:middle">
               <img src="images/alz.png" alt="project image" style="width:100%; border-radius:10px;">
@@ -270,6 +309,7 @@
             </td>
           </tr>
         </table>
+
         <!-- Academic Services Section -->
     <tr>
       <td style="padding:16px;width:100%;vertical-align:middle">
@@ -282,6 +322,7 @@
         </p>
       </td>
     </tr>
+
     <!-- Grant Writing Section -->
     <tr>
       <td style="padding:16px;width:100%;vertical-align:middle">
@@ -289,7 +330,8 @@
         <p>
           I authored a successful proposal for the <a
             href="https://curf.upenn.edu/content/grants-faculty-mentoring-undergraduate-research" target="_blank">
-            Grant for Faculty Mentoring Undergraduate Research (GfFMUR)</a>, awarded by the University of Pennsylvania.
+            Grant for Faculty Mentoring Undergraduate Research (GfFMUR)</a>, awarded by the University of
+          Pennsylvania.
           This competitive grant supported undergraduate research efforts and resulted in an <strong>$8,000
             award</strong> to fund mentorship and research on neurosymbolic AI.
         </p>

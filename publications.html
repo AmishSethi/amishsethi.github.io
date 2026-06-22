@@ -75,12 +75,9 @@
             <a href="https://www.corl.org" target="_blank" rel="noopener">Conference on Robot Learning (CoRL)</a>
             <span class="badge">Under Review</span><span class="badge muted">Senior Thesis</span></p>
           <p class="pub-desc">
-            A semantically similar demonstration, once geometrically adapted to the current scene, gives a vision
-            language action model a high quality behavioral prior. RA-VLA retrieves the best matching demonstration,
-            warps its trajectory to keypoint correspondences in the new scene using a multimodal large language model,
-            then overlays that trajectory onto the robot's observations as a scene grounded reference. Fine-tuning the
-            model to act on these overlays improves task success over state-of-the-art models on the RoboLab-120
-            simulator and on real-world tasks, all without collecting new demonstrations.
+            RA-VLA retrieves a semantically similar demonstration from a large robot dataset, warps it to the current
+            scene with a multimodal language model, and overlays it as guidance for a fine-tuned policy. It improves
+            task success on the RoboLab-120 simulator and real-world tasks with no new demonstrations collected.
           </p>
         </div>
       </div>
@@ -100,9 +97,8 @@
             <a href="https://neurips.cc" target="_blank" rel="noopener">NeurIPS</a>
             <span class="badge">Under Review</span></p>
           <p class="pub-desc">
-            A controlled framework trains diffusion models on synthetic data that isolates basic visual skills such as
-            size, position, and rotation. Models interpolate well inside the training distribution yet fail to
-            extrapolate beyond it, which reveals a clear boundary in how current generative models generalize.
+            A controlled study trains diffusion models on synthetic data that isolates size, position, and rotation,
+            showing they interpolate well within the training distribution yet fail to extrapolate beyond it.
           </p>
         </div>
       </div>
@@ -123,10 +119,9 @@
             <a href="https://efficient-reasoning.github.io/" target="_blank" rel="noopener">NeurIPS 2025 ER Workshop</a>
             <span class="badge">Under Review</span></p>
           <p class="pub-desc">
-            Delta Activations represent a finetuned model by the shift in its internal activations relative to a base
-            model. The vectors cluster cleanly by domain across model hubs and support task based retrieval from only a
-            handful of examples. I led the experiments and released more than 700 finetuned open-source models on
-            Hugging Face.
+            Delta Activations represent a finetuned model by how its internal activations shift from a base model,
+            which clusters models by domain and enables task based retrieval. I led the experiments and released more
+            than 700 finetuned open-source models on Hugging Face.
           </p>
           <div class="links">
             <a class="btn" href="https://arxiv.org/abs/2509.04442" target="_blank" rel="noopener">arXiv</a>
@@ -155,10 +150,9 @@
             <a href="https://neurips.cc/Conferences/2025" target="_blank" rel="noopener">NeurIPS 2025</a>
             <span class="badge gold">Spotlight &middot; Top 3%</span></p>
           <p class="pub-desc">
-            Up to 69 percent of embodied AI failures come from perception errors. ESCA uses VINE, a foundation model
-            that turns video into spatio-temporal scene graphs, to give vision language models explicit spatial context.
-            It raises success rates by up to 10 percent, improves spatial reasoning by 14.6 percent, and cuts perception
-            errors from 69 percent to 30 percent on EmbodiedBench without retraining the underlying models.
+            ESCA turns video into spatio-temporal scene graphs that give vision language models explicit spatial
+            context, cutting perception errors from 69 percent to 30 percent on EmbodiedBench without retraining the
+            underlying models.
           </p>
           <div class="links">
             <a class="btn" href="esca.pdf" target="_blank" rel="noopener">Paper</a>
@@ -184,9 +178,8 @@
           <p class="pub-venue">
             <a href="https://icml.cc/Conferences/2025" target="_blank" rel="noopener">ICML 2025</a></p>
           <p class="pub-desc">
-            Dolphin combines symbolic reasoning with neural computation through a CPU and GPU hybrid execution strategy.
-            By vectorizing probabilistic computations on the GPU it achieves up to 62 times faster convergence than
-            baselines across 13 benchmarks that span text, image, and video.
+            Dolphin pairs symbolic reasoning with neural computation on a CPU and GPU hybrid, reaching up to 62 times
+            faster convergence than baselines across 13 benchmarks that span text, image, and video.
           </p>
           <div class="links">
             <a class="btn" href="https://arxiv.org/abs/2410.03348" target="_blank" rel="noopener">arXiv</a>
@@ -210,8 +203,7 @@
             <a href="https://icml.cc/Conferences/2024" target="_blank" rel="noopener">ICML 2024 ES-FoMo Workshop</a>
           </p>
           <p class="pub-desc">
-            CLAM unifies parameter efficient finetuning, quantization, and pruning by reformulating each as a weight
-            based adaptation, which lets otherwise incompatible methods chain freely. As lead developer I showed that
+            CLAM unifies finetuning, quantization, and pruning as weight based adaptations that chain freely, letting
             CLAM compositions match uncompressed models while using 86 percent fewer bits.
           </p>
           <div class="links">
@@ -238,10 +230,8 @@
           </p>
           <p class="pub-venue"><em>Foundation model behind ESCA</em></p>
           <p class="pub-desc">
-            VINE turns video into probabilistic scene graphs that capture entities, attributes, spatial relationships,
-            and temporal dynamics. Trained on more than 87,000 videos with neurosymbolic learning, it is both promptable
-            and finetunable, and it powers everything from contextualizing vision language models to learning robot
-            policies from broad demonstration corpora.
+            VINE turns video into probabilistic scene graphs of entities, attributes, and relations. Trained on more
+            than 87,000 videos with neurosymbolic learning, it is promptable and finetunable for many downstream tasks.
           </p>
           <div class="links">
             <a class="btn" href="https://video-fm.github.io" target="_blank" rel="noopener">Website</a>
@@ -267,10 +257,9 @@
           </p>
           <p class="pub-venue"><em>bioRxiv</em>, 2021 &middot; ISEF Finalist</p>
           <p class="pub-desc">
-            Using clustering and dimensionality reduction in scikit-learn, this work identified genes expressed
-            differently between people with Alzheimer's and a control group, then built a model that predicts likelihood
-            of Alzheimer's from peripheral blood gene expression with 98 percent accuracy. The paper has been cited more
-            than 8 times.
+            Using clustering and dimensionality reduction, this work found genes that differ in Alzheimer's and
+            predicted the disease from peripheral blood gene expression with 98 percent accuracy. Cited more than 8
+            times.
           </p>
           <div class="links">
             <a class="btn" href="https://www.biorxiv.org/content/10.1101/2021.01.15.426891v1.full.pdf" target="_blank"

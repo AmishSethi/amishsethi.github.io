@@ -204,13 +204,9 @@
             <a href="https://www.corl.org" target="_blank" rel="noopener">CoRL</a>
             <span class="badge">Under Review</span><span class="badge muted">Senior Thesis</span></p>
           <p class="pub-desc">
-            Fine-tuning a vision language action model on a target task gives large gains, which shows that pretraining
-            alone leaves headroom. RA-VLA recovers much of it without collecting new demonstrations. A retrieval stage
-            picks the demonstration whose semantics and visual context best match the current scene, and a warping stage
-            uses a multimodal large language model to align that trajectory to keypoint correspondences in the new
-            configuration. The adapted trajectory is overlaid onto the robot's observations as a scene grounded
-            reference, and we fine-tune the model to act on these overlays. Evaluated on the RoboLab-120 simulator and
-            real-world tasks, this improves success rates over state-of-the-art models.
+            RA-VLA retrieves a similar demonstration from a large robot dataset, warps it to the current scene with a
+            multimodal language model, and overlays it as guidance for a fine-tuned policy, lifting task success with no
+            new demonstrations collected.
           </p>
         </div>
       </div>
@@ -231,11 +227,9 @@
             <a href="https://neurips.cc/Conferences/2025" target="_blank" rel="noopener">NeurIPS 2025</a>
             <span class="badge gold">Spotlight &middot; Top 3%</span></p>
           <p class="pub-desc">
-            Up to 69 percent of embodied AI failures come from perception errors. ESCA uses VINE, a foundation model
-            that turns video into spatio-temporal scene graphs, to give vision language models explicit spatial context.
-            The approach raises success rates by up to 10 percent, improves spatial reasoning by 14.6 percent, and cuts
-            perception errors from 69 percent to 30 percent on EmbodiedBench, all without retraining the underlying
-            models.
+            ESCA turns video into spatio-temporal scene graphs that give vision language models explicit spatial
+            context, cutting perception errors from 69 percent to 30 percent on EmbodiedBench without retraining the
+            underlying models.
           </p>
           <div class="links">
             <a class="btn" href="esca.pdf" target="_blank" rel="noopener">Paper</a>
@@ -263,10 +257,8 @@
             <a href="https://neurips.cc" target="_blank" rel="noopener">NeurIPS</a>
             <span class="badge">Under Review</span></p>
           <p class="pub-desc">
-            We introduce a controlled framework that trains diffusion models on synthetic data so that we can isolate
-            basic visual skills such as size, position, and rotation. With this setup we find that models interpolate
-            well within the training distribution yet fail to extrapolate beyond it, which exposes a clear limit in how
-            today's generative models generalize.
+            A controlled study trains diffusion models on synthetic data that isolates size, position, and rotation,
+            showing they interpolate well within the training distribution yet fail to extrapolate beyond it.
           </p>
         </div>
       </div>
@@ -287,10 +279,9 @@
             <a href="https://efficient-reasoning.github.io/" target="_blank" rel="noopener">NeurIPS 2025 ER Workshop</a>
             <span class="badge">Under Review</span></p>
           <p class="pub-desc">
-            Delta Activations represent a finetuned model by measuring how its internal activations shift relative to a
-            base model. These vectors cluster cleanly by domain across model hubs and support task based retrieval from
-            only a handful of examples. I led the experiments and released more than 700 finetuned open-source models on
-            Hugging Face to support research on reliable model ecosystems.
+            Delta Activations represent a finetuned model by how its internal activations shift from a base model, which
+            clusters models cleanly by domain and enables task based retrieval across the more than 700 models we
+            released on Hugging Face.
           </p>
           <div class="links">
             <a class="btn" href="https://arxiv.org/abs/2509.04442" target="_blank" rel="noopener">arXiv</a>

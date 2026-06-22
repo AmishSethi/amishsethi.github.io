@@ -191,8 +191,8 @@ html[data-theme='dark'] .socials a:hover { color: #14121f; }
 .news .desc { font-size: 0.96rem; color: var(--text-soft); }
 
 /* ------------------------- Publications --------------------------------- */
-.pub { display: grid; grid-template-columns: 172px 1fr; gap: 26px;
-  padding: 22px 0; border-bottom: 1px solid var(--border); align-items: start; }
+.pub { display: grid; grid-template-columns: 210px 1fr; gap: 24px;
+  padding: 24px 0; border-bottom: 1px solid var(--border); align-items: center; }
 .pub:last-child { border-bottom: none; }
 .pub-thumb {
   width: 100%; border-radius: 10px; overflow: hidden;

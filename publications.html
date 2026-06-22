@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications &middot; Amish Sethi</title>
+  <meta name="author" content="Amish Sethi">
+  <meta name="description" content="Publications by Amish Sethi.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Amish Sethi</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">About</a>
+        <a href="publications.html" class="active">Publications</a>
+        <a href="blog.html">Blog</a>
+        <a href="data/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <section style="margin-top:0;">
+      <h1 class="hero-name" style="font-size:2.6rem;"><span class="first">Publications</span></h1>
+      <p style="font-size:0.96rem;">
+        Authors marked with an asterisk contributed equally. See also my
+        <a href="https://scholar.google.com/citations?user=k7JSR2UAAAAJ" target="_blank" rel="noopener">Google
+          Scholar</a> profile.
+      </p>
+
+      <!-- ===================== UNDER REVIEW ===================== -->
+      <div class="pub-group-title">Preprints and Under Review</div>
+
+      <!-- RA-VLA -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/vla_web.png" alt="Retrieval-Augmented VLA"></div>
+        <div>
+          <div class="pub-title">Retrieval-Augmented Vision-Language-Action Model</div>
+          <p class="pub-authors">
+            <a href="https://www.cis.upenn.edu/~jianih/" target="_blank" rel="noopener">Jiani Huang</a>*,
+            <a href="https://www.brandonyifanyang.com/" target="_blank" rel="noopener">Brandon Y. Yang</a>*,
+            <span class="me">Amish Sethi</span>*, Yuchen Zheng, Christopher Watson, Jianing Qian,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>,
+            <a href="https://www.seas.upenn.edu/~dineshj/" target="_blank" rel="noopener">Dinesh Jayaraman</a>
+          </p>
+          <p class="pub-venue">Under review at
+            <a href="https://www.corl.org" target="_blank" rel="noopener">Conference on Robot Learning (CoRL)</a>
+            <span class="badge">Under Review</span><span class="badge muted">Senior Thesis</span></p>
+          <p class="pub-desc">
+            A semantically similar demonstration, once geometrically adapted to the current scene, gives a vision
+            language action model a high quality behavioral prior. RA-VLA retrieves the best matching demonstration,
+            warps its trajectory to keypoint correspondences in the new scene using a multimodal large language model,
+            then overlays that trajectory onto the robot's observations as a scene grounded reference. Fine-tuning the
+            model to act on these overlays improves task success over state-of-the-art models on the RoboLab-120
+            simulator and on real-world tasks, all without collecting new demonstrations.
+          </p>
+        </div>
+      </div>
+
+      <!-- Do Diffusion Models Generalize -->
+      <div class="pub">
+        <div class="pub-thumb ph">Diffusion Models &amp; Basic Visual Skills</div>
+        <div>
+          <div class="pub-title">Do Diffusion Models Learn to Generalize Basic Visual Skills</div>
+          <p class="pub-authors">
+            <span class="me">Amish Sethi</span>, Boya Zeng, Wenhao Chai,
+            <a href="https://liuzhuang13.github.io/" target="_blank" rel="noopener">Zhuang Liu</a>
+          </p>
+          <p class="pub-venue">Under review at
+            <a href="https://neurips.cc" target="_blank" rel="noopener">NeurIPS</a>
+            <span class="badge">Under Review</span></p>
+          <p class="pub-desc">
+            A controlled framework trains diffusion models on synthetic data that isolates basic visual skills such as
+            size, position, and rotation. Models interpolate well inside the training distribution yet fail to
+            extrapolate beyond it, which reveals a clear boundary in how current generative models generalize.
+          </p>
+        </div>
+      </div>
+
+      <!-- Delta Activations -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/delta_activations.png" alt="Delta Activations"></div>
+        <div>
+          <div class="pub-title">Delta Activations: A Representation for Finetuned Large Language Models</div>
+          <p class="pub-authors">
+            <a href="https://oscarxzq.github.io" target="_blank" rel="noopener">Zhiqiu Xu</a>*,
+            <span class="me">Amish Sethi</span>*,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>,
+            <a href="https://sites.google.com/site/sernam" target="_blank" rel="noopener">Ser-Nam Lim</a>
+          </p>
+          <p class="pub-venue">Under review at
+            <a href="https://colmweb.org" target="_blank" rel="noopener">COLM</a> &middot; published at the
+            <a href="https://efficient-reasoning.github.io/" target="_blank" rel="noopener">NeurIPS 2025 ER Workshop</a>
+            <span class="badge">Under Review</span></p>
+          <p class="pub-desc">
+            Delta Activations represent a finetuned model by the shift in its internal activations relative to a base
+            model. The vectors cluster cleanly by domain across model hubs and support task based retrieval from only a
+            handful of examples. I led the experiments and released more than 700 finetuned open-source models on
+            Hugging Face.
+          </p>
+          <div class="links">
+            <a class="btn" href="https://arxiv.org/abs/2509.04442" target="_blank" rel="noopener">arXiv</a>
+            <a class="btn" href="https://oscarxzq.github.io/delta_activation/" target="_blank"
+              rel="noopener">Website</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== PUBLISHED ===================== -->
+      <div class="pub-group-title">Conference and Workshop Papers</div>
+
+      <!-- ESCA -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/vine_pipeline_final.png" alt="ESCA"></div>
+        <div>
+          <div class="pub-title">ESCA: Contextualizing Embodied Agents via Scene-Graph Generation</div>
+          <p class="pub-authors">
+            <a href="https://www.cis.upenn.edu/~jianih/" target="_blank" rel="noopener">Jiani Huang</a>,
+            <span class="me">Amish Sethi</span>*, Matthew Kuo*, Mayank Keoliya,
+            <a href="https://nvelingker.github.io" target="_blank" rel="noopener">Neelay Velingker</a>, JungHo Jung,
+            Ziyang Li, <a href="https://sites.google.com/site/sernam" target="_blank" rel="noopener">Ser-Nam Lim</a>,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>
+          </p>
+          <p class="pub-venue">
+            <a href="https://neurips.cc/Conferences/2025" target="_blank" rel="noopener">NeurIPS 2025</a>
+            <span class="badge gold">Spotlight &middot; Top 3%</span></p>
+          <p class="pub-desc">
+            Up to 69 percent of embodied AI failures come from perception errors. ESCA uses VINE, a foundation model
+            that turns video into spatio-temporal scene graphs, to give vision language models explicit spatial context.
+            It raises success rates by up to 10 percent, improves spatial reasoning by 14.6 percent, and cuts perception
+            errors from 69 percent to 30 percent on EmbodiedBench without retraining the underlying models.
+          </p>
+          <div class="links">
+            <a class="btn" href="esca.pdf" target="_blank" rel="noopener">Paper</a>
+            <a class="btn" href="https://video-fm.github.io" target="_blank" rel="noopener">Website</a>
+            <a class="btn" href="https://github.com/video-fm/LASER" target="_blank" rel="noopener">Code</a>
+            <a class="btn"
+              href="https://opensource.googleblog.com/2025/12/grounding-embodied-agents-with-scene-graphs-accelerated-by-jax.html"
+              target="_blank" rel="noopener">Google Blog</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dolphin -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/dolphin.png" alt="Dolphin"></div>
+        <div>
+          <div class="pub-title">Dolphin: A Programmable Framework for Scalable Neurosymbolic Learning</div>
+          <p class="pub-authors">
+            <a href="https://www.seas.upenn.edu/~asnaik/" target="_blank" rel="noopener">Aaditya Naik</a>, Jason Liu,
+            Claire Wang, <span class="me">Amish Sethi</span>, Saikat Dutta,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>, Eric Wong
+          </p>
+          <p class="pub-venue">
+            <a href="https://icml.cc/Conferences/2025" target="_blank" rel="noopener">ICML 2025</a></p>
+          <p class="pub-desc">
+            Dolphin combines symbolic reasoning with neural computation through a CPU and GPU hybrid execution strategy.
+            By vectorizing probabilistic computations on the GPU it achieves up to 62 times faster convergence than
+            baselines across 13 benchmarks that span text, image, and video.
+          </p>
+          <div class="links">
+            <a class="btn" href="https://arxiv.org/abs/2410.03348" target="_blank" rel="noopener">arXiv</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CLAM -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/clam.png" alt="CLAM"></div>
+        <div>
+          <div class="pub-title">CLAM: Unifying Finetuning, Quantization, and Pruning by Chaining LLM Adapter Modules
+          </div>
+          <p class="pub-authors">
+            <a href="https://nvelingker.github.io" target="_blank" rel="noopener">Neelay Velingker</a>,
+            <span class="me">Amish Sethi</span>*, Jason Liu*, William Dodds*,
+            <a href="https://oscarxzq.github.io" target="_blank" rel="noopener">Zhiqiu Xu</a>, Saikat Dutta,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>, Eric Wong
+          </p>
+          <p class="pub-venue">
+            <a href="https://icml.cc/Conferences/2024" target="_blank" rel="noopener">ICML 2024 ES-FoMo Workshop</a>
+          </p>
+          <p class="pub-desc">
+            CLAM unifies parameter efficient finetuning, quantization, and pruning by reformulating each as a weight
+            based adaptation, which lets otherwise incompatible methods chain freely. As lead developer I showed that
+            CLAM compositions match uncompressed models while using 86 percent fewer bits.
+          </p>
+          <div class="links">
+            <a class="btn" href="https://openreview.net/pdf?id=1mKtFkElnu" target="_blank" rel="noopener">Paper</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== SYSTEMS / MODELS ===================== -->
+      <div class="pub-group-title">Open Models and Systems</div>
+
+      <!-- VINE -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/vine.png" alt="VINE"></div>
+        <div>
+          <div class="pub-title">VINE: A Foundation Model for Video Understanding</div>
+          <p class="pub-authors">
+            <span class="me">Amish Sethi</span>*,
+            <a href="https://www.cis.upenn.edu/~jianih/" target="_blank" rel="noopener">Jiani Huang</a>*, Matthew Kuo*,
+            Ziyang Li, Mayank Keoliya,
+            <a href="https://nvelingker.github.io" target="_blank" rel="noopener">Neelay Velingker</a>,
+            <a href="https://www.cis.upenn.edu/~mhnaik/" target="_blank" rel="noopener">Mayur Naik</a>,
+            <a href="https://sites.google.com/site/sernam" target="_blank" rel="noopener">Ser-Nam Lim</a>
+          </p>
+          <p class="pub-venue"><em>Foundation model behind ESCA</em></p>
+          <p class="pub-desc">
+            VINE turns video into probabilistic scene graphs that capture entities, attributes, spatial relationships,
+            and temporal dynamics. Trained on more than 87,000 videos with neurosymbolic learning, it is both promptable
+            and finetunable, and it powers everything from contextualizing vision language models to learning robot
+            policies from broad demonstration corpora.
+          </p>
+          <div class="links">
+            <a class="btn" href="https://video-fm.github.io" target="_blank" rel="noopener">Website</a>
+            <a class="btn" href="https://github.com/video-fm/LASER_v0" target="_blank" rel="noopener">Code</a>
+            <a class="btn" href="https://huggingface.co/video-fm/vine_v0" target="_blank" rel="noopener">Model</a>
+            <a class="btn" href="https://huggingface.co/datasets/video-fm/ESCA-video-87K" target="_blank"
+              rel="noopener">Dataset</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== EARLIER ===================== -->
+      <div class="pub-group-title">Earlier Research</div>
+
+      <!-- Alzheimer's -->
+      <div class="pub">
+        <div class="pub-thumb"><img src="images/alz.png" alt="Alzheimer's biomarkers"></div>
+        <div>
+          <div class="pub-title">Functional Genetic Biomarkers of Alzheimer's Disease and Gene Expression from
+            Peripheral Blood</div>
+          <p class="pub-authors">
+            Andrew Ni*, <span class="me">Amish Sethi</span>*, Alzheimer's Disease Neuroimaging Initiative
+          </p>
+          <p class="pub-venue"><em>bioRxiv</em>, 2021 &middot; ISEF Finalist</p>
+          <p class="pub-desc">
+            Using clustering and dimensionality reduction in scikit-learn, this work identified genes expressed
+            differently between people with Alzheimer's and a control group, then built a model that predicts likelihood
+            of Alzheimer's from peripheral blood gene expression with 98 percent accuracy. The paper has been cited more
+            than 8 times.
+          </p>
+          <div class="links">
+            <a class="btn" href="https://www.biorxiv.org/content/10.1101/2021.01.15.426891v1.full.pdf" target="_blank"
+              rel="noopener">Paper</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Amish Sethi &middot; Built with care in Philadelphia and Cambridge</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

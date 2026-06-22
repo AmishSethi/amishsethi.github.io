@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scene graphs as the interface between perception and action &middot; Amish Sethi</title>
+  <meta name="author" content="Amish Sethi">
+  <meta name="description"
+    content="Most embodied failures are perception failures. Structured, object-centric representations give agents the spatial grounding that flat features miss.">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Amish Sethi</a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../data/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap post-wrap">
+    <article>
+      <header class="post-head">
+        <p class="p-kicker">Perception</p>
+        <h1>Scene graphs as the interface between perception and action</h1>
+        <p class="p-meta">Apr 30, 2026 &middot; 5 min read &middot; <a href="../blog.html">back to blog</a></p>
+      </header>
+
+      <div class="post-body">
+        <p>Ask why an embodied agent failed and the answer is usually not that it made a bad plan. It is that it misread
+          the scene. In our work on ESCA we found that up to 69 percent of agent failures came from perception errors
+          rather than reasoning<sup class="cite"><a href="#ref-1">[1]</a></sup>. The pattern shows up well beyond our
+          setting. On BLINK, strong multimodal models sit barely above chance on core visual perception that people find
+          trivial<sup class="cite"><a href="#ref-2">[2]</a></sup>, and on EmbodiedBench the best model reaches only about
+          29 percent average success while doing far better at high level reasoning than at the low level perception
+          that grounds it<sup class="cite"><a href="#ref-3">[3]</a></sup>. The bottleneck is seeing, not thinking.</p>
+
+        <h2>Flat features blur the things that matter</h2>
+        <p>Most vision language and vision language action models consume an image as a grid of features. That
+          representation is wonderful for semantics and weak for relations. Whether the cup is to the left of the bowl
+          or behind it is exactly the fact that a global feature vector smears together, and benchmarks built to probe
+          spatial reasoning confirm that current models struggle with it<sup class="cite"><a
+              href="#ref-4">[4]</a></sup>. A policy that cannot reliably tell where things sit relative to each other
+          will act on a guess.</p>
+
+        <h2>Scene graphs make structure explicit</h2>
+        <p>There is an old and well grounded alternative. Represent the scene as a graph,</p>
+        <p>$$ G = (V, E), $$</p>
+        <p>where each node in $V$ is an object with its attributes and each edge in $E$ is a relation between two
+          objects. The scene graph formalism began as a tool for image retrieval<sup class="cite"><a
+              href="#ref-5">[5]</a></sup>, became learnable end to end<sup class="cite"><a href="#ref-6">[6]</a></sup>,
+          and was grounded in the dense annotations of Visual Genome<sup class="cite"><a href="#ref-7">[7]</a></sup>.
+          For robots the idea extends naturally into three dimensions. 3D scene graphs organize space into objects,
+          rooms, and their relations<sup class="cite"><a href="#ref-8">[8]</a></sup>, and systems like Hydra build and
+          optimize them from sensor data in real time<sup class="cite"><a href="#ref-9">[9]</a></sup>. Structure is not
+          a research toy here. It already runs on robots.</p>
+
+        <h2>Why a graph is the right interface</h2>
+        <p>A graph is the representation a planner actually wants. It is compact, it is object centric in the spirit of
+          learned slot representations<sup class="cite"><a href="#ref-10">[10]</a></sup>, and it speaks in objects and
+          relations, which is the level at which language conditioned planners operate. SayCan grounds instructions in
+          affordances<sup class="cite"><a href="#ref-11">[11]</a></sup>, Code as Policies and ProgPrompt write programs
+          over detected objects<sup class="cite"><a href="#ref-12">[12]</a><a href="#ref-13">[13]</a></sup>, and
+          VoxPoser and ReKep reason over 3D spatial structure and relational keypoints between perception and action<sup
+            class="cite"><a href="#ref-14">[14]</a><a href="#ref-15">[15]</a></sup>. Each of these wants a clean,
+          structured view of the world. Handing it a graph rather than a bag of pixels removes a guessing step.</p>
+
+        <h2>What ESCA does</h2>
+        <p>This is the bet behind ESCA. We built VINE, a foundation model that turns video into spatio-temporal scene
+          graphs, and fed those graphs to multimodal models as explicit spatial context. The graphs are produced
+          through a neurosymbolic pipeline in the tradition of Scallop<sup class="cite"><a
+              href="#ref-16">[16]</a></sup> and DeepProbLog<sup class="cite"><a href="#ref-17">[17]</a></sup>, which
+          lets us train an open vocabulary scene graph generator without hand labeled graphs. Giving agents this
+          structured context raised success and cut perception errors on EmbodiedBench without retraining the
+          underlying models<sup class="cite"><a href="#ref-1">[1]</a></sup>. The gain came from fixing what the agent
+          sees, not from making it think harder.</p>
+
+        <h2>Structure pays twice</h2>
+        <p>The same structure that helps an agent act also helps it retrieve. In my work on <a
+            href="../publications.html">RA-VLA</a> the scene graph is the key we search with, since matching on objects
+          and relations finds a more useful neighbor than matching on raw appearance. A simple relational score over
+          matched edges,</p>
+        <p>$$ s_{\text{sg}}(d) = \frac{1}{|M|}\sum_{(i,j)\in M}\cos\!\bigl(\mathbf{r}^{q}_{i},\, \mathbf{r}^{d}_{j}\bigr),
+          $$</p>
+        <p>rewards demonstrations whose relational layout resembles the current scene. Recent policies are starting to
+          make the graph a first class part of control as well, orchestrating low level skills over a symbolic scene
+          graph<sup class="cite"><a href="#ref-18">[18]</a></sup>.</p>
+
+        <div class="callout">
+          <strong>The thesis.</strong> Perception should hand the policy a clean object level model of the world, not a
+          wall of features. Scene graphs are a natural form for that handoff. They are compact, they are spatial, and
+          they match how both planners and retrievers want to reason. If most embodied failures are perception
+          failures, the fix is to give perception a structure worth trusting.
+        </div>
+      </div>
+
+      <section class="references">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><span class="r-title">ESCA: Contextualizing Embodied Agents via Scene-Graph
+              Generation</span>. Jiani Huang, Amish Sethi et al., NeurIPS 2025 Spotlight. <a
+              href="https://arxiv.org/abs/2510.15963" target="_blank" rel="noopener">arXiv:2510.15963</a></li>
+          <li id="ref-2"><span class="r-title">BLINK: Multimodal Large Language Models Can See but Not Perceive</span>.
+            Xingyu Fu et al., ECCV 2024. <a href="https://arxiv.org/abs/2404.12390" target="_blank"
+              rel="noopener">arXiv:2404.12390</a></li>
+          <li id="ref-3"><span class="r-title">EmbodiedBench: Comprehensive Benchmarking Multi-modal Large Language
+              Models for Vision-Driven Embodied Agents</span>. Rui Yang et al., ICML 2025. <a
+              href="https://arxiv.org/abs/2502.09560" target="_blank" rel="noopener">arXiv:2502.09560</a></li>
+          <li id="ref-4"><span class="r-title">SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning
+              Capabilities</span>. Boyuan Chen et al., CVPR 2024. <a href="https://arxiv.org/abs/2401.12168"
+              target="_blank" rel="noopener">arXiv:2401.12168</a></li>
+          <li id="ref-5"><span class="r-title">Image Retrieval using Scene Graphs</span>. Justin Johnson et al., CVPR
+            2015. <a
+              href="https://openaccess.thecvf.com/content_cvpr_2015/html/Johnson_Image_Retrieval_Using_2015_CVPR_paper.html"
+              target="_blank" rel="noopener">CVF open access</a></li>
+          <li id="ref-6"><span class="r-title">Scene Graph Generation by Iterative Message Passing</span>. Danfei Xu et
+            al., CVPR 2017. <a href="https://arxiv.org/abs/1701.02426" target="_blank"
+              rel="noopener">arXiv:1701.02426</a></li>
+          <li id="ref-7"><span class="r-title">Visual Genome: Connecting Language and Vision Using Crowdsourced Dense
+              Image Annotations</span>. Ranjay Krishna et al., IJCV 2017. <a
+              href="https://link.springer.com/article/10.1007/s11263-016-0981-7" target="_blank"
+              rel="noopener">IJCV 123(1)</a></li>
+          <li id="ref-8"><span class="r-title">3D Scene Graph: A Structure for Unified Semantics, 3D Space, and
+              Camera</span>. Iro Armeni et al., ICCV 2019. <a
+              href="https://openaccess.thecvf.com/content_ICCV_2019/html/Armeni_3D_Scene_Graph_A_Structure_for_Unified_Semantics_3D_Space_ICCV_2019_paper.html"
+              target="_blank" rel="noopener">CVF open access</a></li>
+          <li id="ref-9"><span class="r-title">Hydra: A Real-time Spatial Perception System for 3D Scene Graph
+              Construction and Optimization</span>. Nathan Hughes et al., RSS 2022. <a
+              href="https://arxiv.org/abs/2201.13360" target="_blank" rel="noopener">arXiv:2201.13360</a></li>
+          <li id="ref-10"><span class="r-title">Object-Centric Learning with Slot Attention</span>. Francesco Locatello
+            et al., NeurIPS 2020. <a href="https://arxiv.org/abs/2006.15055" target="_blank"
+              rel="noopener">arXiv:2006.15055</a></li>
+          <li id="ref-11"><span class="r-title">Do As I Can, Not As I Say: Grounding Language in Robotic Affordances
+              (SayCan)</span>. Michael Ahn et al., CoRL 2022. <a href="https://arxiv.org/abs/2204.01691" target="_blank"
+              rel="noopener">arXiv:2204.01691</a></li>
+          <li id="ref-12"><span class="r-title">Code as Policies: Language Model Programs for Embodied Control</span>.
+            Jacky Liang et al., ICRA 2023. <a href="https://arxiv.org/abs/2209.07753" target="_blank"
+              rel="noopener">arXiv:2209.07753</a></li>
+          <li id="ref-13"><span class="r-title">ProgPrompt: Generating Situated Robot Task Plans using Large Language
+              Models</span>. Ishika Singh et al., ICRA 2023. <a href="https://arxiv.org/abs/2209.11302" target="_blank"
+              rel="noopener">arXiv:2209.11302</a></li>
+          <li id="ref-14"><span class="r-title">VoxPoser: Composable 3D Value Maps for Robotic Manipulation with
+              Language Models</span>. Wenlong Huang et al., CoRL 2023. <a href="https://arxiv.org/abs/2307.05973"
+              target="_blank" rel="noopener">arXiv:2307.05973</a></li>
+          <li id="ref-15"><span class="r-title">ReKep: Spatio-Temporal Reasoning of Relational Keypoint Constraints for
+              Robotic Manipulation</span>. Wenlong Huang et al., CoRL 2024. <a href="https://arxiv.org/abs/2409.01652"
+              target="_blank" rel="noopener">arXiv:2409.01652</a></li>
+          <li id="ref-16"><span class="r-title">Scallop: A Language for Neurosymbolic Programming</span>. Ziyang Li et
+            al., PLDI 2023. <a href="https://arxiv.org/abs/2304.04812" target="_blank"
+              rel="noopener">arXiv:2304.04812</a></li>
+          <li id="ref-17"><span class="r-title">DeepProbLog: Neural Probabilistic Logic Programming</span>. Robin
+            Manhaeve et al., NeurIPS 2018. <a
+              href="https://papers.nips.cc/paper/7632-deepproblog-neural-probabilistic-logic-programming" target="_blank"
+              rel="noopener">NeurIPS proceedings</a></li>
+          <li id="ref-18"><span class="r-title">GraSP-VLA: Graph-based Symbolic Action Representation for Long-Horizon
+              Planning with VLA Policies</span>. Maelic Neau et al., 2025. <a href="https://arxiv.org/abs/2511.04357"
+              target="_blank" rel="noopener">arXiv:2511.04357</a></li>
+        </ol>
+      </section>
+
+      <p class="post-foot"><a href="../blog.html">&larr; All posts</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Amish Sethi &middot; Built with care in Philadelphia and Cambridge</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+</body>
+
+</html>

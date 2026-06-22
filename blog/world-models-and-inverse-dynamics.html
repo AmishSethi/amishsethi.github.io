@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World models, and why inverse dynamics beats joint prediction &middot; Amish Sethi</title>
+  <meta name="author" content="Amish Sethi">
+  <meta name="description"
+    content="For control, recovering the action that explains a transition is often a better use of video than predicting every future pixel.">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Amish Sethi</a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../data/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap post-wrap">
+    <article>
+      <header class="post-head">
+        <p class="p-kicker">World Models</p>
+        <h1>World models, and why inverse dynamics beats joint prediction</h1>
+        <p class="p-meta">May 28, 2026 &middot; 7 min read &middot; <a href="../blog.html">back to blog</a></p>
+      </header>
+
+      <div class="post-body">
+        <p>World models are having a moment. Systems like Genie 3 generate interactive worlds you can steer in real
+          time, and large video generators are now openly described as simulators of the physical world. The excitement
+          is justified, but it hides a design question that matters for anyone who wants to act and not only watch. If
+          the point of a world model is control, what exactly should it predict?</p>
+
+        <p>There are two answers. One learns a forward generative model that predicts what the world will look like
+          next. The other learns an inverse model that recovers the action that explains a change which already
+          happened. My claim is that for control, the inverse view is usually the better use of video, and the field's
+          own results keep pointing that way.</p>
+
+        <h2>The generative forward model</h2>
+        <p>The classic recipe learns to imagine. The original World Models work trained a latent forward model and
+          evolved a small controller inside it<sup class="cite"><a href="#ref-1">[1]</a></sup>. The Dreamer line scaled
+          the idea, learning behaviors purely from rollouts in a learned latent model and eventually mastering many
+          domains from scratch<sup class="cite"><a href="#ref-2">[2]</a><a href="#ref-3">[3]</a><a
+              href="#ref-4">[4]</a></sup>. Transformer world models such as IRIS made the loop sample efficient<sup
+            class="cite"><a href="#ref-5">[5]</a></sup>, and TD-MPC2 showed that a decoder free latent model can drive
+          strong continuous control<sup class="cite"><a href="#ref-6">[6]</a></sup>. These are real achievements, and
+          planning inside a learned model is genuinely powerful.</p>
+
+        <h2>What pixel prediction spends its capacity on</h2>
+        <p>The trouble appears when the forward model has to predict observations directly. Pixels are enormous and most
+          of their entropy is appearance that has little to do with what the robot should do. A model that predicts
+          every future frame spends most of its capacity rendering texture, lighting, and background that the policy
+          will ignore. Write the one step joint distribution over the next observation and the action as</p>
+        <p>$$ p(o_{t+1},\, a_t \mid o_t) = \underbrace{p(o_{t+1} \mid o_t, a_t)}_{\text{forward dynamics}}\;
+          \underbrace{p(a_t \mid o_t)}_{\text{policy}}. $$</p>
+        <p>Learning the full forward term means modeling the entire observation distribution. For control we mostly care
+          about the action, which is small and structured by comparison.</p>
+
+        <h2>The inverse view scales to the video we actually have</h2>
+        <p>An inverse dynamics model flips the target. Rather than predicting the next frame, it predicts the action
+          that connects two frames,</p>
+        <p>$$ q_\phi(a_t \mid o_t,\, o_{t+1}). $$</p>
+        <p>This is a low dimensional and decision relevant target, and it unlocks the largest resource we have, which is
+          video with no action labels. VPT trained an inverse dynamics model on a small labeled set, used it to label a
+          huge amount of unlabeled web video, then pretrained a strong behavior prior on the result<sup class="cite"><a
+              href="#ref-7">[7]</a></sup>. LAPO went further and recovered latent actions, a latent inverse model, and a
+          latent action policy from action free video alone<sup class="cite"><a href="#ref-8">[8]</a></sup>. LAPA
+          carried the idea into vision language action pretraining and, strikingly, matched or beat a model trained on
+          ground truth actions<sup class="cite"><a href="#ref-9">[9]</a></sup>. Genie learned a latent action model from
+          unlabeled video and turned it into a controllable world<sup class="cite"><a href="#ref-10">[10]</a></sup>. The
+          pattern is hard to miss. When the supervision target is the action rather than the pixels, unlabeled video
+          becomes training data.</p>
+
+        <h2>Why this is not only an efficiency trick</h2>
+        <p>There is a representational reason as well. An inverse model is naturally invariant to much of the appearance
+          variation that a forward model must reproduce. Two scenes that look different yet require the same motion map
+          to the same action, so the learned latent organizes experience by what to do rather than by how things look.
+          That is the property a policy actually needs.</p>
+
+        <h2>Where forward models still earn their place</h2>
+        <p>None of this retires generative models. They remain the right tool for planning and for simulation. Dreamer
+          plans by imagining<sup class="cite"><a href="#ref-4">[4]</a></sup>, and a line of work from Yilun Du treats
+          video generation itself as a universal policy and as a learned dynamics model for planning, from UniPi<sup
+            class="cite"><a href="#ref-11">[11]</a></sup> to Video Language Planning<sup class="cite"><a
+              href="#ref-12">[12]</a></sup>, with Diffusion Forcing giving stable long horizon rollouts<sup
+            class="cite"><a href="#ref-13">[13]</a></sup>. The broader position that video can serve as a shared
+          interface for perception, planning, and simulation is worth taking seriously<sup class="cite"><a
+              href="#ref-14">[14]</a></sup>, and driving world models like GAIA-1<sup class="cite"><a
+              href="#ref-15">[15]</a></sup> together with the Genie 2 and Genie 3 systems<sup class="cite"><a
+              href="#ref-16">[16]</a><a href="#ref-17">[17]</a></sup> show how far the generative side has come. Even
+          here the trend is to stop predicting raw pixels. Sora frames video diffusion as a world simulator<sup
+            class="cite"><a href="#ref-18">[18]</a></sup>, yet V-JEPA argues for predicting in a learned latent space
+          rather than reconstructing frames<sup class="cite"><a href="#ref-19">[19]</a></sup>, which is the same
+          instinct that makes inverse and latent action models work.</p>
+
+        <h2>Where I am headed</h2>
+        <p>This is the thread I am most excited to pull on in my PhD with <a href="https://yilundu.github.io/"
+            target="_blank" rel="noopener">Yilun Du</a>. I do not think the real question is forward against inverse in
+          the abstract. The win comes from learning an action relevant latent, whether we get it from an inverse model
+          on real video, from latent actions distilled out of a generative model, or from both. Pixels are a means. The
+          action is the target.</p>
+
+        <div class="callout">
+          <strong>The thesis.</strong> If the goal is control, predict the thing you will act on. Inverse dynamics and
+          latent action models get there with the abundant unlabeled video we already have, while a forward model that
+          must render the future pays for detail the policy throws away. Generative world models still shine for
+          planning and simulation, yet even they are drifting away from pixels and toward latents. That convergence is
+          the real signal.
+        </div>
+      </div>
+
+      <section class="references">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><span class="r-title">World Models</span>. David Ha and Jurgen Schmidhuber, NeurIPS 2018. <a
+              href="https://arxiv.org/abs/1803.10122" target="_blank" rel="noopener">arXiv:1803.10122</a></li>
+          <li id="ref-2"><span class="r-title">Dream to Control: Learning Behaviors by Latent Imagination</span>.
+            Danijar Hafner et al., ICLR 2020. <a href="https://arxiv.org/abs/1912.01603" target="_blank"
+              rel="noopener">arXiv:1912.01603</a></li>
+          <li id="ref-3"><span class="r-title">Mastering Atari with Discrete World Models (DreamerV2)</span>. Danijar
+            Hafner et al., ICLR 2021. <a href="https://arxiv.org/abs/2010.02193" target="_blank"
+              rel="noopener">arXiv:2010.02193</a></li>
+          <li id="ref-4"><span class="r-title">Mastering Diverse Domains through World Models (DreamerV3)</span>.
+            Danijar Hafner et al., 2023. <a href="https://arxiv.org/abs/2301.04104" target="_blank"
+              rel="noopener">arXiv:2301.04104</a></li>
+          <li id="ref-5"><span class="r-title">Transformers are Sample-Efficient World Models (IRIS)</span>. Vincent
+            Micheli et al., ICLR 2023. <a href="https://arxiv.org/abs/2209.00588" target="_blank"
+              rel="noopener">arXiv:2209.00588</a></li>
+          <li id="ref-6"><span class="r-title">TD-MPC2: Scalable, Robust World Models for Continuous Control</span>.
+            Nicklas Hansen et al., ICLR 2024. <a href="https://arxiv.org/abs/2310.16828" target="_blank"
+              rel="noopener">arXiv:2310.16828</a></li>
+          <li id="ref-7"><span class="r-title">Video PreTraining (VPT): Learning to Act by Watching Unlabeled Online
+              Videos</span>. Bowen Baker et al., NeurIPS 2022. <a href="https://arxiv.org/abs/2206.11795"
+              target="_blank" rel="noopener">arXiv:2206.11795</a></li>
+          <li id="ref-8"><span class="r-title">Learning to Act without Actions (LAPO)</span>. Dominik Schmidt and Minqi
+            Jiang, ICLR 2024. <a href="https://arxiv.org/abs/2312.10812" target="_blank"
+              rel="noopener">arXiv:2312.10812</a></li>
+          <li id="ref-9"><span class="r-title">Latent Action Pretraining from Videos (LAPA)</span>. Seonghyeon Ye et
+            al., ICLR 2025. <a href="https://arxiv.org/abs/2410.11758" target="_blank"
+              rel="noopener">arXiv:2410.11758</a></li>
+          <li id="ref-10"><span class="r-title">Genie: Generative Interactive Environments</span>. Jake Bruce et al.,
+            ICML 2024 (Best Paper). <a href="https://arxiv.org/abs/2402.15391" target="_blank"
+              rel="noopener">arXiv:2402.15391</a></li>
+          <li id="ref-11"><span class="r-title">Learning Universal Policies via Text-Guided Video Generation
+              (UniPi)</span>. Yilun Du et al., NeurIPS 2023. <a href="https://arxiv.org/abs/2302.00111" target="_blank"
+              rel="noopener">arXiv:2302.00111</a></li>
+          <li id="ref-12"><span class="r-title">Video Language Planning</span>. Yilun Du et al., ICLR 2024. <a
+              href="https://arxiv.org/abs/2310.10625" target="_blank" rel="noopener">arXiv:2310.10625</a></li>
+          <li id="ref-13"><span class="r-title">Diffusion Forcing: Next-token Prediction Meets Full-Sequence
+              Diffusion</span>. Boyuan Chen et al., NeurIPS 2024. <a href="https://arxiv.org/abs/2407.01392"
+              target="_blank" rel="noopener">arXiv:2407.01392</a></li>
+          <li id="ref-14"><span class="r-title">Position: Video as the New Language for Real-World Decision
+              Making</span>. Sherry Yang et al., ICML 2024. <a href="https://arxiv.org/abs/2402.17139" target="_blank"
+              rel="noopener">arXiv:2402.17139</a></li>
+          <li id="ref-15"><span class="r-title">GAIA-1: A Generative World Model for Autonomous Driving</span>. Anthony
+            Hu et al., Wayve, 2023. <a href="https://arxiv.org/abs/2309.17080" target="_blank"
+              rel="noopener">arXiv:2309.17080</a></li>
+          <li id="ref-16"><span class="r-title">Genie 2: A large-scale foundation world model</span>. Google DeepMind,
+            2024. <a href="https://deepmind.google/blog/genie-2-a-large-scale-foundation-world-model/" target="_blank"
+              rel="noopener">deepmind.google</a></li>
+          <li id="ref-17"><span class="r-title">Genie 3: A new frontier for world models</span>. Google DeepMind, 2025.
+            <a href="https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/" target="_blank"
+              rel="noopener">deepmind.google</a></li>
+          <li id="ref-18"><span class="r-title">Video generation models as world simulators (Sora)</span>. OpenAI,
+            2024. <a href="https://openai.com/index/video-generation-models-as-world-simulators/" target="_blank"
+              rel="noopener">openai.com</a></li>
+          <li id="ref-19"><span class="r-title">Revisiting Feature Prediction for Learning Visual Representations from
+              Video (V-JEPA)</span>. Adrien Bardes et al., Meta AI, 2024. <a href="https://arxiv.org/abs/2404.08471"
+              target="_blank" rel="noopener">arXiv:2404.08471</a></li>
+        </ol>
+      </section>
+
+      <p class="post-foot"><a href="../blog.html">&larr; All posts</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Amish Sethi &middot; Built with care in Philadelphia and Cambridge</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+</body>
+
+</html>

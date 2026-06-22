@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why retrieval belongs in the robot learning stack &middot; Amish Sethi</title>
+  <meta name="author" content="Amish Sethi">
+  <meta name="description"
+    content="A case for retrieving past robot experience and adapting it, rather than collecting new demonstrations for every task.">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Amish Sethi</a>
+      <div class="nav-links" id="navLinks">
+        <a href="../index.html">About</a>
+        <a href="../publications.html">Publications</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../data/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap post-wrap">
+    <article>
+      <header class="post-head">
+        <p class="p-kicker">Robot Learning</p>
+        <h1>Why retrieval belongs in the robot learning stack</h1>
+        <p class="p-meta">Jun 12, 2026 &middot; 6 min read &middot; <a href="../blog.html">back to blog</a></p>
+      </header>
+
+      <div class="post-body">
+        <p>Robots act in an open world. The set of tasks a home robot might be asked to do is effectively unbounded, so
+          no matter how large we make an offline dataset, it will never hold a demonstration that matches the next task
+          exactly. For a while the field's answer was to collect more teleoperation and then fine-tune. That works, and
+          fine-tuning on in-domain data still gives large gains, but it scales linearly with human effort and it treats
+          every new task as a fresh start.</p>
+
+        <p>There is a cheaper idea hiding in plain sight. A corpus that lacks an exact match almost always contains
+          something close. If I want a robot to cover a cup, a diverse manipulation dataset may already hold put the
+          block on the square, which is the same underlying motion of placing one object onto another. The question is
+          not whether the right behavior exists in the data. It is whether we can find it and adapt it.</p>
+
+        <h2>Language models already made this bet</h2>
+        <p>Language modeling settled a version of this debate years ago. When a fixed set of weights cannot hold all the
+          knowledge a task needs, the productive move is not only to grow the model but to attach a non parametric
+          memory and retrieve from it. Retrieval augmented generation showed that conditioning a generator on retrieved
+          documents improves factual accuracy<sup class="cite"><a href="#ref-1">[1]</a></sup>, and the nearest neighbor
+          language model showed that simply interpolating a trained model with neighbors from a datastore lowers
+          perplexity with no extra training<sup class="cite"><a href="#ref-2">[2]</a></sup>. The lesson carries over. A
+          vision language action policy maps an instruction and an observation to an action chunk,</p>
+        <p>$$ \pi_\theta\bigl(a_t,\dots,a_{t+H} \mid \ell,\, o_t\bigr), $$</p>
+        <p>and it has finite capacity facing an open world, which is exactly the regime where retrieval earns its keep.
+        </p>
+
+        <h2>The neighbors really are in the data now</h2>
+        <p>This only pays off if good neighbors exist, and at current scale they do. Open X-Embodiment pooled more than
+          a million trajectories across twenty two embodiments<sup class="cite"><a href="#ref-3">[3]</a></sup>, and
+          DROID added seventy six thousand in the wild manipulation episodes across hundreds of scenes<sup
+            class="cite"><a href="#ref-4">[4]</a></sup>. At that size, no exact match and no useful neighbor are very
+          different statements, and the second one is usually false.</p>
+
+        <h2>Retrieval is already quietly working</h2>
+        <p>Several lines of work already retrieve experience rather than try to memorize it. Behavior Retrieval queries
+          a large unlabeled dataset with a handful of target demonstrations<sup class="cite"><a
+              href="#ref-5">[5]</a></sup>. STRAP retrieves at the sub trajectory level using vision foundation features
+          and dynamic time warping<sup class="cite"><a href="#ref-6">[6]</a></sup>. RICL gives a pretrained policy in
+          context adaptability, so it improves on new tasks by pulling relevant snippets into context with no gradient
+          updates<sup class="cite"><a href="#ref-7">[7]</a></sup>. R+X retrieves clips from unlabeled human video and
+          executes them through in context imitation<sup class="cite"><a href="#ref-8">[8]</a></sup>. The shape is
+          consistent. Retrieve relevant experience, then condition the policy on it.</p>
+
+        <h2>Retrieval is not enough, you have to adapt</h2>
+        <p>Here is the catch that separates robotics from text. A retrieved document can be read as is, but a retrieved
+          demonstration was executed in a different scene with objects in different poses, so its raw trajectory rarely
+          transfers. The neighbor is a behavioral prior, not an answer. This is where adaptation matters, and the tools
+          are mature. Object centric and scene graph representations capture which objects matter and how they relate,
+          as in ORION's open world object graphs<sup class="cite"><a href="#ref-9">[9]</a></sup>. Dense 3D grounded
+          correspondence from methods like MASt3R can align a retrieved scene to the current one<sup class="cite"><a
+              href="#ref-10">[10]</a></sup>. And a policy can consume a coarse geometric sketch instead of a perfect
+          demonstration, which is what visual trace conditioning showed with RT-Trajectory<sup class="cite"><a
+              href="#ref-11">[11]</a></sup> and TraceVLA<sup class="cite"><a href="#ref-12">[12]</a></sup>.</p>
+
+        <h2>The backbones are ready to be augmented</h2>
+        <p>Modern policies are well suited to this. The line from RT-1<sup class="cite"><a
+              href="#ref-13">[13]</a></sup> and RT-2<sup class="cite"><a href="#ref-14">[14]</a></sup> through
+          OpenVLA<sup class="cite"><a href="#ref-15">[15]</a></sup>, the flow based models from Physical Intelligence<sup
+            class="cite"><a href="#ref-16">[16]</a><a href="#ref-17">[17]</a></sup>, and GR00T N1<sup class="cite"><a
+              href="#ref-18">[18]</a></sup> all inherit internet scale priors. The same semantic grounding those models
+          stand on, built from features like DINOv2<sup class="cite"><a href="#ref-19">[19]</a></sup>, CLIP<sup
+            class="cite"><a href="#ref-20">[20]</a></sup>, and SigLIP<sup class="cite"><a
+              href="#ref-21">[21]</a></sup>, is exactly what lets a retriever find the right neighbor in the first place.
+        </p>
+
+        <h2>What RA-VLA does</h2>
+        <p>My recent work, <a href="../publications.html">RA-VLA</a>, makes this concrete with a retrieve then warp
+          recipe over DROID. It encodes the instruction and a scene graph of the current observation, retrieves
+          semantically matching demonstrations, then uses a multimodal language model to warp the retrieved trajectory
+          to keypoint correspondences in the live scene. The warped trajectory is overlaid on the robot's camera views
+          as a scene grounded reference, and we fine-tune a pi-0.5 backbone to act on these overlays. Candidates are
+          ranked by a blend of language similarity and scene graph structure,</p>
+        <p>$$ d_{\text{final}}(d) = \alpha\,\bigl(1 - \cos(\mathbf{q}_\ell, \mathbf{e}^d_\ell)\bigr) + (1-\alpha)\,\bigl(1
+          - s_{\text{sg}}(d)\bigr), $$</p>
+        <p>where the first term measures instruction similarity and the second measures structural similarity between
+          scene graphs. Across the RoboLab-120 simulator and real Franka tasks, conditioning on adapted neighbors
+          improves success over a strong fine-tuned baseline with no new demonstrations collected. The retriever builds
+          on our work on structured perception in ESCA<sup class="cite"><a href="#ref-22">[22]</a></sup>.</p>
+
+        <div class="callout">
+          <strong>The thesis.</strong> Teleoperation scales with human hours. Retrieval scales with data you already
+          have, and it improves every time the corpus grows. Retrieval belongs in the robot learning stack for the same
+          reason it belongs in language modeling. It is the cheapest way to give a fixed capacity policy access to an
+          open ended world.
+        </div>
+      </div>
+
+      <section class="references">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><span class="r-title">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</span>.
+            Patrick Lewis et al., NeurIPS 2020. <a href="https://arxiv.org/abs/2005.11401" target="_blank"
+              rel="noopener">arXiv:2005.11401</a></li>
+          <li id="ref-2"><span class="r-title">Generalization through Memorization: Nearest Neighbor Language
+              Models</span>. Urvashi Khandelwal et al., ICLR 2020. <a href="https://arxiv.org/abs/1911.00172"
+              target="_blank" rel="noopener">arXiv:1911.00172</a></li>
+          <li id="ref-3"><span class="r-title">Open X-Embodiment: Robotic Learning Datasets and RT-X Models</span>. Open
+            X-Embodiment Collaboration, ICRA 2024. <a href="https://arxiv.org/abs/2310.08864" target="_blank"
+              rel="noopener">arXiv:2310.08864</a></li>
+          <li id="ref-4"><span class="r-title">DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset</span>.
+            Alexander Khazatsky et al., RSS 2024. <a href="https://arxiv.org/abs/2403.12945" target="_blank"
+              rel="noopener">arXiv:2403.12945</a></li>
+          <li id="ref-5"><span class="r-title">Behavior Retrieval: Few-Shot Imitation Learning by Querying Unlabeled
+              Datasets</span>. Maximilian Du et al., RSS 2023. <a href="https://arxiv.org/abs/2304.08742" target="_blank"
+              rel="noopener">arXiv:2304.08742</a></li>
+          <li id="ref-6"><span class="r-title">STRAP: Robot Sub-Trajectory Retrieval for Augmented Policy
+              Learning</span>. Marius Memmel et al., ICLR 2025. <a href="https://arxiv.org/abs/2412.15182"
+              target="_blank" rel="noopener">arXiv:2412.15182</a></li>
+          <li id="ref-7"><span class="r-title">RICL: Adding In-Context Adaptability to Pre-Trained
+              Vision-Language-Action Models</span>. Kaustubh Sridhar et al., CoRL 2025. <a
+              href="https://arxiv.org/abs/2508.02062" target="_blank" rel="noopener">arXiv:2508.02062</a></li>
+          <li id="ref-8"><span class="r-title">R+X: Retrieval and Execution from Everyday Human Videos</span>. Georgios
+            Papagiannis et al., 2024. <a href="https://arxiv.org/abs/2407.12957" target="_blank"
+              rel="noopener">arXiv:2407.12957</a></li>
+          <li id="ref-9"><span class="r-title">Vision-based Manipulation from Single Human Video with Open-World Object
+              Graphs (ORION)</span>. Yifeng Zhu et al., 2024. <a href="https://arxiv.org/abs/2405.20321" target="_blank"
+              rel="noopener">arXiv:2405.20321</a></li>
+          <li id="ref-10"><span class="r-title">Grounding Image Matching in 3D with MASt3R</span>. Vincent Leroy et
+            al., ECCV 2024. <a href="https://arxiv.org/abs/2406.09756" target="_blank"
+              rel="noopener">arXiv:2406.09756</a></li>
+          <li id="ref-11"><span class="r-title">RT-Trajectory: Robotic Task Generalization via Hindsight Trajectory
+              Sketches</span>. Jiayuan Gu et al., ICLR 2024. <a href="https://arxiv.org/abs/2311.01977" target="_blank"
+              rel="noopener">arXiv:2311.01977</a></li>
+          <li id="ref-12"><span class="r-title">TraceVLA: Visual Trace Prompting Enhances Spatial-Temporal Awareness for
+              Generalist Robotic Policies</span>. Ruijie Zheng et al., ICLR 2025. <a
+              href="https://arxiv.org/abs/2412.10345" target="_blank" rel="noopener">arXiv:2412.10345</a></li>
+          <li id="ref-13"><span class="r-title">RT-1: Robotics Transformer for Real-World Control at Scale</span>.
+            Anthony Brohan et al., RSS 2023. <a href="https://arxiv.org/abs/2212.06817" target="_blank"
+              rel="noopener">arXiv:2212.06817</a></li>
+          <li id="ref-14"><span class="r-title">RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic
+              Control</span>. Anthony Brohan et al., CoRL 2023. <a href="https://arxiv.org/abs/2307.15818"
+              target="_blank" rel="noopener">arXiv:2307.15818</a></li>
+          <li id="ref-15"><span class="r-title">OpenVLA: An Open-Source Vision-Language-Action Model</span>. Moo Jin Kim
+            et al., CoRL 2024. <a href="https://arxiv.org/abs/2406.09246" target="_blank"
+              rel="noopener">arXiv:2406.09246</a></li>
+          <li id="ref-16"><span class="r-title">pi-0: A Vision-Language-Action Flow Model for General Robot
+              Control</span>. Kevin Black et al., Physical Intelligence, 2024. <a href="https://arxiv.org/abs/2410.24164"
+              target="_blank" rel="noopener">arXiv:2410.24164</a></li>
+          <li id="ref-17"><span class="r-title">pi-0.5: a Vision-Language-Action Model with Open-World
+              Generalization</span>. Physical Intelligence, 2025. <a href="https://arxiv.org/abs/2504.16054"
+              target="_blank" rel="noopener">arXiv:2504.16054</a></li>
+          <li id="ref-18"><span class="r-title">GR00T N1: An Open Foundation Model for Generalist Humanoid
+              Robots</span>. NVIDIA, 2025. <a href="https://arxiv.org/abs/2503.14734" target="_blank"
+              rel="noopener">arXiv:2503.14734</a></li>
+          <li id="ref-19"><span class="r-title">DINOv2: Learning Robust Visual Features without Supervision</span>.
+            Maxime Oquab et al., TMLR 2024. <a href="https://arxiv.org/abs/2304.07193" target="_blank"
+              rel="noopener">arXiv:2304.07193</a></li>
+          <li id="ref-20"><span class="r-title">Learning Transferable Visual Models From Natural Language
+              Supervision</span>. Alec Radford et al., ICML 2021. <a href="https://arxiv.org/abs/2103.00020"
+              target="_blank" rel="noopener">arXiv:2103.00020</a></li>
+          <li id="ref-21"><span class="r-title">Sigmoid Loss for Language Image Pre-Training (SigLIP)</span>. Xiaohua
+            Zhai et al., ICCV 2023. <a href="https://arxiv.org/abs/2303.15343" target="_blank"
+              rel="noopener">arXiv:2303.15343</a></li>
+          <li id="ref-22"><span class="r-title">ESCA: Contextualizing Embodied Agents via Scene-Graph
+              Generation</span>. Jiani Huang, Amish Sethi et al., NeurIPS 2025 Spotlight. <a
+              href="https://arxiv.org/abs/2510.15963" target="_blank" rel="noopener">arXiv:2510.15963</a></li>
+        </ol>
+      </section>
+
+      <p class="post-foot"><a href="../blog.html">&larr; All posts</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Amish Sethi &middot; Built with care in Philadelphia and Cambridge</p>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],throwOnError:false});"></script>
+</body>
+
+</html>

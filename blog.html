@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog &middot; Amish Sethi</title>
+  <meta name="author" content="Amish Sethi">
+  <meta name="description" content="Short research perspectives on robot learning by Amish Sethi.">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    (function () {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+
+<body>
+  <div class="progress-bar" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Amish Sethi</a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">About</a>
+        <a href="publications.html">Publications</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="data/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section style="margin-top:0;">
+      <h1 class="hero-name" style="font-size:2.6rem;"><span class="first">Blog</span></h1>
+      <p style="font-size:0.98rem; max-width:640px;">
+        Short perspectives on robot learning, drawn from my own work and the papers I keep returning to. I write
+        these to think out loud about where embodied AI is heading.
+      </p>
+
+      <div class="post-list">
+
+        <a class="post-item-link" href="blog/why-retrieval-belongs-in-robot-learning.html">
+          <div class="post-item">
+            <div class="p-date">Jun 12, 2026 &middot; 6 min read</div>
+            <div class="p-title">Why retrieval belongs in the robot learning stack</div>
+            <p class="p-sub">The space of robot tasks is unbounded, but good neighbors are not. A case for retrieving
+              past experience and adapting it, rather than collecting new demonstrations for every task.</p>
+            <div class="p-tags"><span class="badge muted">Robot Learning</span><span class="badge muted">VLA</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="post-item-link" href="blog/world-models-and-inverse-dynamics.html">
+          <div class="post-item">
+            <div class="p-date">May 28, 2026 &middot; 7 min read</div>
+            <div class="p-title">World models, and why inverse dynamics beats joint prediction</div>
+            <p class="p-sub">If the goal is control, recovering the action that explains a transition is often a better
+              use of video than predicting every future pixel.</p>
+            <div class="p-tags"><span class="badge muted">World Models</span><span class="badge muted">Video</span>
+            </div>
+          </div>
+        </a>
+
+        <a class="post-item-link" href="blog/scene-graphs-perception-and-action.html">
+          <div class="post-item">
+            <div class="p-date">Apr 30, 2026 &middot; 5 min read</div>
+            <div class="p-title">Scene graphs as the interface between perception and action</div>
+            <p class="p-sub">Most embodied failures are perception failures. Structured, object-centric
+              representations give agents the spatial grounding that flat features miss.</p>
+            <div class="p-tags"><span class="badge muted">Perception</span><span class="badge muted">Embodied
+                AI</span></div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Amish Sethi &middot; Built with care in Philadelphia and Cambridge</p>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

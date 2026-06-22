@@ -1,130 +1,148 @@
-\documentclass[10pt]{article}
-\usepackage[margin=0.68in]{geometry}
-\usepackage{xcolor}
-\usepackage{helvet}
-\usepackage[hidelinks]{hyperref}
-\renewcommand{\familydefault}{\sfdefault}
+\documentclass[letterpaper,11pt]{article}
 
-\definecolor{accent}{HTML}{3D35C9}
-\definecolor{soft}{HTML}{555555}
-\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+\usepackage{latexsym}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{array}
+
+\definecolor{linkblue}{rgb}{0,0,1}
+
+% Margins (matching the wide single-page look)
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1.2in}
+\addtolength{\topmargin}{-0.85in}
+\addtolength{\textheight}{1.75in}
 
 \setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{0pt}
 \pagestyle{empty}
-\linespread{1.13}
+\raggedright
+\urlstyle{same}
 
-% ---- section heading with rule (replaces titlesec) ----
-\newcommand{\heading}[1]{%
-  \vspace{11pt}%
-  {\normalsize\bfseries\MakeUppercase{#1}}\par
-  \vspace{1pt}\hrule\vspace{5pt}}
-
-% ---- compact itemize (replaces enumitem) ----
+% Compact list spacing (replaces enumitem)
+\setlength{\leftmargini}{1.45em}
+\setlength{\leftmarginii}{1.2em}
+\renewcommand{\labelitemi}{$\circ$}
+\renewcommand{\labelitemii}{$\circ$}
 \newenvironment{tight}{%
-  \begin{itemize}\setlength{\leftmargin}{14pt}%
-    \setlength{\itemsep}{3.5pt}\setlength{\parskip}{0pt}\setlength{\topsep}{3pt}}%
+  \begin{itemize}\setlength{\itemsep}{1pt}\setlength{\parsep}{0pt}\setlength{\topsep}{2pt}}%
   {\end{itemize}}
 
-\newcommand{\entry}[2]{\textbf{#1}\hfill{\color{soft}#2}\\}
-\newcommand{\sub}[2]{#1\hfill{\color{soft}#2}\\}
+% Section header: small caps + full-width rule (replaces titlesec)
+\newcommand{\rsection}[1]{%
+  \vspace{3pt}{\scshape\Large #1}\par\vspace{1pt}\hrule height 0.6pt\vspace{3pt}}
+
+% Link blue only when wanted; plain \href stays black via hidelinks
+\newcommand{\linkhref}[2]{\textcolor{linkblue}{\href{#1}{#2}}}
+
+% Entry heading: bold title (left), location (right); italic subtitle (left), italic date (right)
+\newcommand{\heading}[4]{\textbf{#1}\hfill #2\\\textit{\small #3}\hfill \textit{\small #4}}
+\newcommand{\headingjob}[4]{\textbf{#1}\hfill #2\\\textit{#3}\hfill \textit{\small #4}}
 
 \begin{document}
 
 %==================== HEADER ====================
-\begin{center}
-  {\LARGE \textbf{Amish Sethi}}\\[3pt]
-  {\color{soft}Incoming PhD Student, Harvard University}\\[4pt]
-  \href{mailto:amishsethi@g.harvard.edu}{amishsethi@g.harvard.edu} \quad$\bullet$\quad
-  \href{https://amishsethi.github.io}{amishsethi.github.io} \quad$\bullet$\quad
-  \href{https://github.com/AmishSethi}{GitHub} \quad$\bullet$\quad
-  \href{https://scholar.google.com/citations?user=k7JSR2UAAAAJ}{Google Scholar}
-\end{center}
+\begin{tabular}{@{}l}
+  \textbf{\href{https://amishsethi.github.io}{\LARGE Amish Sethi}} \\[4pt]
+  \linkhref{https://amishsethi.github.io}{amishsethi.github.io} \quad$\bullet$\quad
+  \linkhref{mailto:amishsethi@g.harvard.edu}{amishsethi@g.harvard.edu} \quad$\bullet$\quad
+  \linkhref{https://github.com/AmishSethi}{GitHub} \quad$\bullet$\quad
+  \linkhref{https://scholar.google.com/citations?user=k7JSR2UAAAAJ}{Google Scholar}
+\end{tabular}
 
-%==================== INTERESTS ====================
-\heading{Research Interests}
+%==================== RESEARCH INTERESTS ====================
+\rsection{Research Interests}
 Reliable embodied AI, foundation models that connect video, language, and robot action, scalable neurosymbolic learning, and understanding and adapting large generative models.
 
 %==================== EDUCATION ====================
-\heading{Education}
-\entry{\href{https://www.harvard.edu/}{Harvard University}}{Cambridge, MA}
-\sub{PhD in Computer Science, incoming}{Fall 2026}
-Advised by \href{https://hankyang.seas.harvard.edu/}{Heng Yang} and \href{https://yilundu.github.io/}{Yilun Du}.
-\href{https://kempnerinstitute.harvard.edu/education/graduate-fellowship/}{Kempner Institute Graduate Fellow} and \href{https://www.nsf.gov/funding/opportunities/grfp-nsf-graduate-research-fellowship-program}{NSF Graduate Research Fellow}.
+\rsection{Education}
+\heading{\href{https://www.harvard.edu/}{Harvard University}}{Cambridge, MA}{Ph.D. in Computer Science, incoming}{Fall 2026}\\
+{\small Advised by \linkhref{https://hankyang.seas.harvard.edu/}{Heng Yang} and \linkhref{https://yilundu.github.io/}{Yilun Du}. \linkhref{https://kempnerinstitute.harvard.edu/education/graduate-fellowship/}{Kempner Institute Graduate Fellow} and NSF Graduate Research Fellow.}
 
-\vspace{5pt}
-\entry{\href{https://www.upenn.edu/}{University of Pennsylvania}}{Philadelphia, PA}
-\sub{B.S.E. in Computer Science and M.S.E. in Computer and Information Science}{May 2026}
-Cumulative GPA 4.00 out of 4.00.
+\vspace{3pt}
+\heading{\href{https://www.upenn.edu/}{University of Pennsylvania}}{Philadelphia, PA}{B.S.E. in Computer Science and M.S.E. in Computer and Information Science}{May 2026}\\
+{\small Cumulative GPA 4.00 out of 4.00.}
 
 %==================== HONORS ====================
-\heading{Honors and Awards}
+\rsection{Honors and Awards}
 \begin{tight}
-  \item \href{https://www.nsf.gov/funding/opportunities/grfp-nsf-graduate-research-fellowship-program}{NSF Graduate Research Fellowship}, National Science Foundation \hfill {\color{soft}2026}
-  \item \href{https://kempnerinstitute.harvard.edu/education/graduate-fellowship/}{Kempner Institute Graduate Fellowship}, Harvard University \hfill {\color{soft}2026}
-  \item \href{https://academics.seas.upenn.edu/ugrad/awards/}{John Grist Brainerd Award}, Penn Engineering, top graduating senior \hfill {\color{soft}2026}
-  \item \href{https://cra.org/crae/awards/cra-outstanding-undergraduate-researchers/}{CRA Outstanding Undergraduate Researcher Award}, Honorable Mention \hfill {\color{soft}2025}
-  \item \href{https://neurips.cc/Conferences/2025}{NeurIPS 2025} Spotlight for ESCA, top 3 percent of submissions \hfill {\color{soft}2025}
-  \item First Place, International Public Policy Forum \hfill {\color{soft}2022}
-  \item National Merit Scholar, and ISEF Finalist in genetics research \hfill {\color{soft}2021}
+  \item \linkhref{https://www.nsf.gov/funding/opportunities/grfp-nsf-graduate-research-fellowship-program}{NSF Graduate Research Fellowship}, National Science Foundation \hfill \textit{\small 2026}
+  \item \linkhref{https://kempnerinstitute.harvard.edu/education/graduate-fellowship/}{Kempner Institute Graduate Fellowship}, Harvard University \hfill \textit{\small 2026}
+  \item \linkhref{https://academics.seas.upenn.edu/ugrad/awards/}{John Grist Brainerd Award}, Penn Engineering, top graduating senior \hfill \textit{\small 2026}
+  \item \linkhref{https://cra.org/crae/awards/cra-outstanding-undergraduate-researchers/}{CRA Outstanding Undergraduate Researcher Award}, Honorable Mention \hfill \textit{\small 2025}
+  \item \linkhref{https://neurips.cc/Conferences/2025}{NeurIPS 2025} Spotlight for ESCA, top 3\% of submissions \hfill \textit{\small 2025}
+  \item First Place, International Public Policy Forum \hfill \textit{\small 2022}
+  \item National Merit Scholar; ISEF Finalist in genetics research \hfill \textit{\small 2021}
 \end{tight}
 
 %==================== PUBLICATIONS ====================
-\heading{Publications}
-{\color{soft}\small Authors marked with an asterisk contributed equally. My name is shown in bold.}
-\begin{tight}
-  \item \textbf{Retrieval-Augmented Vision-Language-Action Model}.
-  \href{https://www.cis.upenn.edu/~jianih/}{Jiani Huang}*, \href{https://www.brandonyifanyang.com/}{Brandon Y. Yang}*, \textbf{Amish Sethi}*, Yuchen Zheng, \href{https://cwatson1998.github.io/}{Christopher Watson}, \href{https://www.grasp.upenn.edu/people/jianing-aurora-qian/}{Jianing Qian}, \href{https://www.cis.upenn.edu/~mhnaik/}{Mayur Naik}, \href{https://www.seas.upenn.edu/~dineshj/}{Dinesh Jayaraman}. Under review at \href{https://www.corl.org}{CoRL} 2026. Senior thesis.
+\rsection{Publications}
+{\small\textit{My name is shown in bold. Authors marked with an asterisk contributed equally.}}
+\vspace{4pt}
 
-  \item \textbf{Do Diffusion Models Learn to Generalize Basic Visual Skills}.
-  \textbf{Amish Sethi}, \href{https://boyazeng.github.io/}{Boya Zeng}, \href{https://wenhaochai.com/}{Wenhao Chai}, \href{https://liuzhuang13.github.io/}{Zhuang Liu}. Under review at \href{https://neurips.cc}{NeurIPS}.
+Jiani Huang*, \linkhref{https://www.brandonyifanyang.com/}{Brandon Y. Yang}*, \textbf{Amish Sethi}*, Yuchen Zheng, Christopher Watson, Jianing Qian, Mayur Naik, Dinesh Jayaraman. ``Retrieval-Augmented Vision-Language-Action Model.'' Under review at \textit{\linkhref{https://www.corl.org}{CoRL} 2026}. Senior thesis.
 
-  \item \textbf{Delta Activations: A Representation for Finetuned Large Language Models}.
-  \href{https://oscarxzq.github.io}{Zhiqiu Xu}*, \textbf{Amish Sethi}*, \href{https://www.cis.upenn.edu/~mhnaik/}{Mayur Naik}, \href{https://sites.google.com/site/sernam}{Ser-Nam Lim}. Under review at \href{https://colmweb.org}{COLM}, and published at the \href{https://efficient-reasoning.github.io/}{NeurIPS 2025 ER Workshop}. \href{https://arxiv.org/abs/2509.04442}{arXiv}.
+\vspace{3pt}
+\textbf{Amish Sethi}, Boya Zeng, Wenhao Chai, Zhuang Liu. ``Do Diffusion Models Learn to Generalize Basic Visual Skills.'' Under review at \textit{\linkhref{https://neurips.cc}{NeurIPS}}.
 
-  \item \textbf{\href{https://video-fm.github.io}{ESCA: Contextualizing Embodied Agents via Scene-Graph Generation}}.
-  \href{https://www.cis.upenn.edu/~jianih/}{Jiani Huang}, \textbf{Amish Sethi}*, Matthew Kuo*, Mayank Keoliya, \href{https://nvelingker.github.io}{Neelay Velingker}, JungHo Jung, Ziyang Li, \href{https://sites.google.com/site/sernam}{Ser-Nam Lim}, \href{https://www.cis.upenn.edu/~mhnaik/}{Mayur Naik}. \href{https://neurips.cc/Conferences/2025}{NeurIPS 2025}, Spotlight, top 3 percent.
+\vspace{3pt}
+Zhiqiu Xu*, \textbf{Amish Sethi}*, Mayur Naik, Ser-Nam Lim. ``Delta Activations: A Representation for Finetuned Large Language Models.'' Under review at \textit{\linkhref{https://colmweb.org}{COLM}}; \textit{NeurIPS 2025 ER Workshop}. \hfill [\linkhref{https://arxiv.org/abs/2509.04442}{arXiv}]
 
-  \item \textbf{\href{https://arxiv.org/abs/2410.03348}{Dolphin: A Programmable Framework for Scalable Neurosymbolic Learning}}.
-  \href{https://www.seas.upenn.edu/~asnaik/}{Aaditya Naik}, Jason Liu, Claire Wang, \textbf{Amish Sethi}, Saikat Dutta, \href{https://www.cis.upenn.edu/~mhnaik/}{Mayur Naik}, Eric Wong. \href{https://icml.cc/Conferences/2025}{ICML 2025}.
+\vspace{3pt}
+Jiani Huang, \textbf{Amish Sethi}*, Matthew Kuo*, Mayank Keoliya, Neelay Velingker, JungHo Jung, Ziyang Li, Ser-Nam Lim, Mayur Naik. ``ESCA: Contextualizing Embodied Agents via Scene-Graph Generation.'' \textit{\linkhref{https://neurips.cc/Conferences/2025}{NeurIPS 2025}}, Spotlight, top 3\%. \hfill [\linkhref{https://video-fm.github.io}{Website}]
 
-  \item \textbf{\href{https://openreview.net/pdf?id=1mKtFkElnu}{CLAM: Unifying Finetuning, Quantization, and Pruning by Chaining LLM Adapter Modules}}.
-  \href{https://nvelingker.github.io}{Neelay Velingker}, \textbf{Amish Sethi}*, Jason Liu*, William Dodds*, \href{https://oscarxzq.github.io}{Zhiqiu Xu}, Saikat Dutta, \href{https://www.cis.upenn.edu/~mhnaik/}{Mayur Naik}, Eric Wong. \href{https://icml.cc/Conferences/2024}{ICML 2024} ES-FoMo Workshop.
+\vspace{3pt}
+Aaditya Naik, Jason Liu, Claire Wang, \textbf{Amish Sethi}, Saikat Dutta, Mayur Naik, Eric Wong. ``Dolphin: A Programmable Framework for Scalable Neurosymbolic Learning.'' \textit{\linkhref{https://icml.cc/Conferences/2025}{ICML 2025}}. \hfill [\linkhref{https://arxiv.org/abs/2410.03348}{arXiv}]
 
-  \item \textbf{\href{https://www.biorxiv.org/content/10.1101/2021.01.15.426891v1.full.pdf}{Functional Genetic Biomarkers of Alzheimer's Disease and Gene Expression from Peripheral Blood}}.
-  Andrew Ni*, \textbf{Amish Sethi}*, Alzheimer's Disease Neuroimaging Initiative. bioRxiv 2021, cited more than 8 times.
-\end{tight}
+\vspace{3pt}
+Neelay Velingker, \textbf{Amish Sethi}*, Jason Liu*, William Dodds*, Zhiqiu Xu, Saikat Dutta, Mayur Naik, Eric Wong. ``CLAM: Unifying Finetuning, Quantization, and Pruning by Chaining LLM Adapter Modules.'' \textit{ICML 2024 ES-FoMo Workshop}. \hfill [\linkhref{https://openreview.net/pdf?id=1mKtFkElnu}{Paper}]
+
+\vspace{3pt}
+Andrew Ni*, \textbf{Amish Sethi}*. ``Functional Genetic Biomarkers of Alzheimer's Disease and Gene Expression from Peripheral Blood.'' \textit{bioRxiv}, 2021. \hfill [\linkhref{https://www.biorxiv.org/content/10.1101/2021.01.15.426891v1.full.pdf}{Paper}]
 
 %==================== OPEN SOURCE ====================
-\heading{Open-Source and Datasets}
+\rsection{Open-Source and Datasets}
 \begin{tight}
-  \item \textbf{\href{https://video-fm.github.io}{VINE}}, a promptable foundation model that turns video into spatio-temporal scene graphs, released with the ESCA-Video-87K dataset of more than 87,000 videos on \href{https://huggingface.co/video-fm/vine_v0}{Hugging Face}.
-  \item Finetuned and released more than 700 open-source language models on Hugging Face for the Delta Activations study, supporting research on reliable model ecosystems.
-  \item The \href{https://github.com/video-fm/LASER}{LASER} codebase behind VINE reached more than 100 stars on GitHub and was featured on the Google Open Source Blog.
+  \item \textbf{\linkhref{https://video-fm.github.io}{VINE}} and the ESCA-Video-87K dataset, a promptable model that turns video into spatio-temporal scene graphs, released on \linkhref{https://huggingface.co/video-fm/vine_v0}{Hugging Face}.
+  \item Finetuned and released more than 700 open-source language models on Hugging Face for the Delta Activations study.
+  \item \textbf{\linkhref{https://github.com/video-fm/LASER}{LASER}}, the codebase behind VINE, reached more than 100 stars on GitHub and was featured on the Google Open Source Blog.
 \end{tight}
 
 %==================== EXPERIENCE ====================
-\heading{Experience}
-\entry{\href{https://www.afterquery.com/}{AfterQuery}, Research Lead}{Summer 2026}
-Leading research on the next large benchmark for embodied agents and on scaling robotics data collection well beyond teleoperation, including a more capable handheld interface for in the wild robot demonstrations.
+\rsection{Experience}
+\headingjob{Research Lead}{San Francisco, CA}{\href{https://www.afterquery.com/}{AfterQuery}}{May 2026 - Present}
+\begin{tight}
+  \item Leading research on the next large benchmark for embodied agents.
+  \item Working to scale robotics data collection well beyond teleoperation, including a more capable handheld interface for in the wild robot demonstrations.
+\end{tight}
 
 \vspace{4pt}
-\entry{National University of Singapore, Research Intern}{2023}
-Built FIIGNET, a generative pipeline that synthesizes images of diseased fish for aquaponics early detection, which improved detection accuracy by 17 percent across synthetic and real datasets.
+\headingjob{Research Intern}{Singapore}{National University of Singapore}{2023}
+\begin{tight}
+  \item Built FIIGNET, a generative pipeline that synthesizes images of diseased fish for aquaponics early detection, improving detection accuracy by 17\% across synthetic and real datasets.
+\end{tight}
 
 \vspace{4pt}
-\entry{RoadBotics, Computer Vision Intern}{2021}
-Developed a Mask R-CNN model that detects and classifies traffic signs from video with 90 percent accuracy. The system was deployed by the Pennsylvania state government to maintain an inventory of road assets.
+\headingjob{Computer Vision Intern}{Pittsburgh, PA}{RoadBotics}{2021}
+\begin{tight}
+  \item Developed a Mask R-CNN model that detects and classifies traffic signs from video with 90\% accuracy, deployed by the Pennsylvania state government to maintain an inventory of road assets.
+\end{tight}
 
 %==================== TEACHING ====================
-\heading{Teaching and Service}
-\entry{Head Teaching Assistant, \href{https://llm-class.github.io}{CIS 7000 Large Language Models}, Penn}{Fall 2024}
-Planned curriculum, designed assignments, held office hours, and lectured on efficient finetuning, adaptation, and evaluation for Penn's first dedicated LLM course of more than 120 students.
+\rsection{Teaching and Service}
+\textbf{Head Teaching Assistant}, \linkhref{https://llm-class.github.io}{CIS 7000 Large Language Models}, Penn \hfill \textit{\small Fall 2024}
+\begin{tight}
+  \item Planned curriculum, designed assignments, held office hours, and lectured on efficient finetuning, adaptation, and evaluation for Penn's first dedicated LLM course of more than 120 students.
+\end{tight}
 
 \vspace{4pt}
-\entry{Undergraduate Research Mentor, \href{https://curf.upenn.edu/content/penn-undergraduate-research-mentoring-program-purm}{Penn PURM}}{Summer 2024}
-Mentored five undergraduates on the CLAM project, teaching research methodology, work with large language models, and scalable optimization.
+\textbf{Undergraduate Research Mentor}, \linkhref{https://curf.upenn.edu/content/penn-undergraduate-research-mentoring-program-purm}{Penn PURM} \hfill \textit{\small Summer 2024}
+\begin{tight}
+  \item Mentored five undergraduates on the CLAM project, teaching research methodology, work with large language models, and scalable optimization.
+\end{tight}
 
 \vspace{4pt}
-Reviewer for the ICML 2024 ES-FoMo Workshop, \href{https://aaai.org/conference/aaai/aaai-26/}{AAAI 2026}, and \href{https://iclr.cc/Conferences/2026}{ICLR 2026}. Authored a successful \href{https://curf.upenn.edu/content/grants-faculty-mentoring-undergraduate-research}{Grant for Faculty Mentoring Undergraduate Research}, awarded 8,000 dollars by Penn for research on neurosymbolic AI.
+\textbf{Service.} Reviewer for the ICML 2024 ES-FoMo Workshop, \linkhref{https://aaai.org/conference/aaai/aaai-26/}{AAAI 2026}, and \linkhref{https://iclr.cc/Conferences/2026}{ICLR 2026}. Authored a successful \linkhref{https://curf.upenn.edu/content/grants-faculty-mentoring-undergraduate-research}{Grant for Faculty Mentoring Undergraduate Research}, awarded 8,000 dollars by Penn for research on neurosymbolic AI.
 
 \end{document}
